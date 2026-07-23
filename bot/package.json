@@ -1,0 +1,18 @@
+{
+  "name": "clipsmith-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "clipsmith Discord review bot — posts the weekly candidate digest and captures owner selections (Phase 2). Evola-bot pattern.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/index.mjs",
+    "dry-run": "node src/index.mjs --dry-run",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3"
+  }
+}

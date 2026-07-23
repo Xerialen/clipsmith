@@ -1,0 +1,27 @@
+[Unit]
+Description=clipsmith detection run — watcher + Phase-1 detectors (issue #21)
+Documentation=file://@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/pinnacle/README.md
+Wants=network-online.target
+After=network-online.target
+OnFailure=clipsmith-failure@%n.service
+
+[Service]
+Type=oneshot
+User=@CLIPSMITH_USER@
+# Live-toggle / overrides (CLIPSMITH_STATE_DIR, CLIPSMITH_DEPLOY_DIR, ...).
+# Credentials are NOT loaded here — clipsmith.watcher and bot/config.mjs read
+# ~/.config/api-keys.env themselves; nothing secret enters the unit env.
+EnvironmentFile=-@CLIPSMITH_HOME@/.config/clipsmith-deploy.env
+# '+' = run with full privileges (may systemctl-start the on-demand
+# clipsmith-mvd-api.service); the run itself stays unprivileged.
+ExecStartPre=+@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/pinnacle/ensure-mvd-api.sh
+ExecStart=@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/pinnacle/run-detect.sh
+# A detection run downloads new demos and runs 4 detectors per demo via
+# mvd-api; generous ceiling so a big backlog still completes.
+TimeoutStartSec=2h
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clipsmith-detect
+
+[Install]
+WantedBy=multi-user.target

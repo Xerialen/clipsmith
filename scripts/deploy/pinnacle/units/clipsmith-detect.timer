@@ -1,0 +1,15 @@
+[Unit]
+Description=clipsmith detection schedule — Tue/Thu/Sat night (issue #21)
+Requires=clipsmith-detect.service
+
+[Timer]
+# 3x/week detection per docs/pipeline-spec.md "Cadence". The IANA zone is
+# pinned IN the calendar expression, so CET/CEST (DST) is handled by systemd
+# against Europe/Stockholm regardless of the host TZ setting. The :33 offset
+# avoids the :00/:30 stampede (Evola-bot convention).
+OnCalendar=Tue,Thu,Sat *-*-* 23:33:00 Europe/Stockholm
+# Missed window (WSL down / wsl --shutdown for gaming): fire once on next boot.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

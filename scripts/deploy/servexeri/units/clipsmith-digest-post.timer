@@ -1,0 +1,15 @@
+[Unit]
+Description=clipsmith Monday 20:00 digest post schedule — servexeri (issue #21)
+Requires=clipsmith-digest-post.service
+
+[Timer]
+# Posts at 20:00 — 30 min AFTER pinnacle's 19:30 producer run builds and
+# ships the week's digest JSON (run-digest-post.sh additionally waits,
+# bounded, for the file). The IANA zone is pinned in the expression so
+# CET/CEST is handled by tzdata.
+OnCalendar=Mon *-*-* 20:00:00 Europe/Stockholm
+# servexeri is always-on, but keep catch-up for reboots anyway.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

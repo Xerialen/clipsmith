@@ -1,0 +1,26 @@
+[Unit]
+Description=clipsmith Monday digest — build + post (dry-run until #12; issue #21)
+Documentation=file://@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/pinnacle/README.md
+Wants=network-online.target
+After=network-online.target
+OnFailure=clipsmith-failure@%n.service
+
+[Service]
+Type=oneshot
+User=@CLIPSMITH_USER@
+# The ONE documented line to flip live posting (after the owner completes #12):
+#   echo 'CLIPSMITH_DIGEST_LIVE=1' >> ~/.config/clipsmith-deploy.env
+# Optional: CLIPSMITH_DIGEST_CHANNEL=<test-channel-id> for a safe first live test.
+EnvironmentFile=-@CLIPSMITH_HOME@/.config/clipsmith-deploy.env
+# '+' = run with full privileges (may systemctl-start the on-demand
+# clipsmith-mvd-api.service for the pre-digest detection sweep).
+ExecStartPre=+@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/pinnacle/ensure-mvd-api.sh
+ExecStart=@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/pinnacle/run-digest.sh
+# Includes a best-effort pre-digest detection sweep (Sunday-games gap).
+TimeoutStartSec=2h
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clipsmith-digest
+
+[Install]
+WantedBy=multi-user.target

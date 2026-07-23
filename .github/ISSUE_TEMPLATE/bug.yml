@@ -1,0 +1,36 @@
+name: Bug
+description: Something is broken or behaving incorrectly
+title: "Bug: "
+labels: ["type:bug", "status:inbox"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How do we make it happen?
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen?
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happens instead?
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Actual terminal output, logs, screenshots, links.
+  - type: textarea
+    id: docs
+    attributes:
+      label: Docs to update

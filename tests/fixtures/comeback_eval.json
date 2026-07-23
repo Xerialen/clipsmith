@@ -1,0 +1,123 @@
+{
+  "description": "Labeled evaluation set for the COME-BACK detector (issue #30 point 6). Ground truth is INDEPENDENT of the detector's trend/break logic: each game's lead series was folded from mvd-api getEvents frag deltas (the fold is validated exact against overview team totals — fold_ok) and labeled by the eventual winner's worst deficit. 'comeback' = the winner overcame a 16+ frag deficit; 'control' = the winner never trailed by more than 7 (wire-to-wire / steady game, no comeback happened). Demos pull from the d.quake.world CDN via mvd-api POST /v1/demos/gameId:<hub_game_id> (cold sha-loads 404 — Phase-1 finding); once cached, sha loads work.",
+  "labeled": "2026-06-11",
+  "selection_notes": "Positives/controls sourced from the 5 cached state/demos plus a Turso sweep (scripts/selection/turso_query.py) of 4on4 games: close finals (abs(score1-score2) <= 10) screened as comeback candidates, blowouts (>= 60) as control candidates, every pick then verified via the mvd-api lead series. Excluded: 8d8d69cc... (winner overcame only 11 — ambiguous, neither label), fb53c3b5... (3 team names in overview — detector requires 2), 5b284714... (lead-fold/overview mismatch, fold_ok=False — unreliable ground truth).",
+  "demos": [
+    {
+      "sha": "03b91754a71adb20ae128fab9729d7f531554f18efbcbe400560a9cd727f7cea",
+      "label": "comeback",
+      "map": "schloss",
+      "matchdate": "2026-06-09",
+      "final_score": "blue 211 - red 207",
+      "winner": "blue",
+      "winner_worst_deficit": 44,
+      "worst_deficit_at_s": 1029,
+      "evidence": "blue down 44 at t=1029 and won; manual evaluation: sailorman's 2xRL-carrier break at 17:26, corroborated by back-to-back quads at 1038s/1098s"
+    },
+    {
+      "sha": "423eea64cd3a001a5b6830387fc3f50553ed2b08eefadbe2f8b0b9298f1fe6a8",
+      "label": "comeback",
+      "map": "dm2",
+      "matchdate": "2026-06-10",
+      "final_score": "blue 206 - red 187",
+      "winner": "blue",
+      "winner_worst_deficit": 27,
+      "worst_deficit_at_s": 759,
+      "evidence": "blue down 27 at t=759, then a full reversal: red ends 28 behind at t=1176"
+    },
+    {
+      "sha": "4a1263232014b0a2c6331238c2098d4d0b2010113dc743befd99da34cc8b2d9e",
+      "label": "comeback",
+      "map": "dm2",
+      "matchdate": "2026-06-05",
+      "hub_game_id": 220514,
+      "final_score": "red 200 - blue 195",
+      "winner": "red",
+      "winner_worst_deficit": 32,
+      "worst_deficit_at_s": 1025,
+      "evidence": "red down 32 at t=1025 with ~3 min left and won by 5"
+    },
+    {
+      "sha": "118b5f819929e5a0e1e6b833091d918ebc74758eb6e49d31191e6b25e8f5a095",
+      "label": "comeback",
+      "map": "e1m2",
+      "matchdate": "2026-06-03",
+      "hub_game_id": 220128,
+      "final_score": "red 213 - blue 208",
+      "winner": "red",
+      "winner_worst_deficit": 26,
+      "worst_deficit_at_s": 455,
+      "evidence": "red down 26 at t=455, came back to win a 5-frag final"
+    },
+    {
+      "sha": "8ffc89d7dd1de861d9d92f0f2c162c7e0bba2271e79324862c417f449971b578",
+      "label": "comeback",
+      "map": "phantombase",
+      "matchdate": "2026-06-05",
+      "hub_game_id": 220520,
+      "final_score": "red 164 - blue 162",
+      "winner": "red",
+      "winner_worst_deficit": 16,
+      "worst_deficit_at_s": 1074,
+      "evidence": "red down 16 at t=1074 (last 2 minutes) and stole it 164-162"
+    },
+    {
+      "sha": "ab0334c2dadddd14748c6e0d46a92a66fa017291705931547ce61e4ee94cdba8",
+      "label": "control",
+      "map": "e1m2",
+      "matchdate": "2026-06-09",
+      "final_score": "red 227 - blue 180",
+      "winner": "red",
+      "winner_worst_deficit": 5,
+      "worst_deficit_at_s": 516,
+      "evidence": "red never behind more than 5; won by 47 — no comeback happened"
+    },
+    {
+      "sha": "c4e8aab568163077c60e3b0945ecf9618c78cb84e9393977ed1e89fcbbab9c9f",
+      "label": "control",
+      "map": "dm3",
+      "matchdate": "2026-06-09",
+      "final_score": "red 172 - blue 160",
+      "winner": "red",
+      "winner_worst_deficit": 6,
+      "worst_deficit_at_s": 112,
+      "evidence": "red briefly down 6 in the opening 2 minutes, led the rest — steady game"
+    },
+    {
+      "sha": "9e764305c04185fc82f4a4950ed901569b1e76651200753b5afbcdf1365b2bd7",
+      "label": "control",
+      "map": "dm3",
+      "matchdate": "2026-06-10",
+      "hub_game_id": 221272,
+      "final_score": "-fu- 140 - red 132",
+      "winner": "-fu-",
+      "winner_worst_deficit": 0,
+      "worst_deficit_at_s": 6,
+      "evidence": "-fu- never trailed (worst deficit 0); red down 72 mid-game then garbage-time scoring narrowed the FINAL margin to 8 without ever threatening"
+    },
+    {
+      "sha": "36c1bd283a73a1118cffeee96db39779eb469059d8d6332db579e68a389c4f41",
+      "label": "control",
+      "map": "e1m2",
+      "matchdate": "2026-06-07",
+      "hub_game_id": 220848,
+      "final_score": "blue 192 - red 182",
+      "winner": "blue",
+      "winner_worst_deficit": 3,
+      "worst_deficit_at_s": 40,
+      "evidence": "blue down 3 at t=40 only; close FINAL score but the winner was never behind after the opening minute"
+    },
+    {
+      "sha": "573a7f119b1b41da9aa65938f2b06f7f3dc1a8f75d57da2df2fb902de4e074f3",
+      "label": "control",
+      "map": "schloss",
+      "matchdate": "2026-06-10",
+      "hub_game_id": 221275,
+      "final_score": "red 227 - blue 140",
+      "winner": "red",
+      "winner_worst_deficit": 7,
+      "worst_deficit_at_s": 160,
+      "evidence": "wire-to-wire blowout: red down at most 7 early, blue ends 108 behind at t=897"
+    }
+  ]
+}

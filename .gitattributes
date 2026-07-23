@@ -1,0 +1,5 @@
+# Shell scripts and quake cfgs cross into WSL — they must stay LF even with
+# core.autocrlf=true on Windows (CRLF breaks bash; clipsmith/render.py also
+# LF-normalizes what it stages, belt and suspenders).
+*.sh text eol=lf
+*.cfg text eol=lf

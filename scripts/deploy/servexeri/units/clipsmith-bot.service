@@ -1,0 +1,26 @@
+[Unit]
+Description=clipsmith Discord review bot (Phase-2 owner interface; issue #21 host split)
+Documentation=file://@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/servexeri/README.md
+After=network-online.target
+Wants=network-online.target
+OnFailure=clipsmith-failure@%n.service
+
+[Service]
+Type=simple
+User=@CLIPSMITH_USER@
+WorkingDirectory=@CLIPSMITH_DEPLOY_DIR@/bot
+# Discord token etc. read by bot/config.mjs from ~/.config/api-keys.env
+# (CLIPSMITH_DISCORD_TOKEN / _GUILD_ID / _REVIEW_CHANNEL_ID — owner adds them
+# on servexeri after #12). No secrets in this unit.
+EnvironmentFile=-@CLIPSMITH_HOME@/.config/clipsmith-deploy.env
+# Candidate store lives on pinnacle — reached via the SSH store wrapper:
+Environment=CLIPSMITH_PYTHON=@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/servexeri/bin/store-python-ssh.sh
+ExecStart=/usr/bin/node src/index.mjs
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clipsmith-bot
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+# Runtime and generated output
+graphify-out/
+state/
+__pycache__/
+*.py[cod]
+node_modules/
+.pytest_cache/
+.playwright-mcp/
+*.log
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+credentials.json
+client_secret*.json
+
+# Local editor/OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Unrelated local QA screenshots
+/komodobots-*.png

@@ -1,0 +1,18 @@
+[Unit]
+Description=clipsmith Monday digest build/ship (+ interim post) schedule (issue #21)
+Requires=clipsmith-digest.service
+
+[Timer]
+# Monday 19:30 Europe/Stockholm — 30 min BEFORE the Monday-20:00 post cadence
+# (docs/pipeline-spec.md), because this run is the PRODUCER: it builds and
+# ships the digest JSON that servexeri's clipsmith-digest-post.timer posts at
+# 20:00 (the poster also waits, bounded, for the shipped file). The IANA zone
+# is pinned IN the calendar expression: systemd evaluates it against
+# Europe/Stockholm, so the CET (winter, +01) / CEST (summer, +02) switch is
+# handled by the tzdata rules — the run stays at 19:30 local year-round.
+OnCalendar=Mon *-*-* 19:30:00 Europe/Stockholm
+# Missed window (WSL down at Monday 20:00): fire once on next boot.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

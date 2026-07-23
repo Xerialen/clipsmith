@@ -1,0 +1,53 @@
+name: markdown-check
+
+# Lightweight, free Markdown sanity check. Warn-only / non-blocking: it lints
+# for obvious issues and flags broken relative links without failing the build.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  markdown-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Lint Markdown (warn only)
+        run: |
+          echo "Scanning Markdown files..."
+          status=0
+          while IFS= read -r f; do
+            # Flag tab characters (Markdown prefers spaces).
+            if grep -nP '\t' "$f" >/dev/null 2>&1; then
+              echo "::warning file=$f::Contains tab characters; prefer spaces in Markdown."
+            fi
+            # Flag trailing whitespace.
+            if grep -nE ' +$' "$f" >/dev/null 2>&1; then
+              echo "::warning file=$f::Contains trailing whitespace."
+            fi
+          done < <(find . -name '*.md' -not -path './.git/*')
+
+          echo "Checking relative links..."
+          while IFS= read -r f; do
+            dir="$(dirname "$f")"
+            # Extract relative links of the form [text](path) that are not URLs or anchors.
+            grep -oE '\]\(([^)]+)\)' "$f" 2>/dev/null | sed -E 's/^\]\(//; s/\)$//' | while IFS= read -r link; do
+              case "$link" in
+                http://*|https://*|mailto:*|\#*) continue ;;
+              esac
+              target="${link%%#*}"
+              [ -z "$target" ] && continue
+              if [ ! -e "$dir/$target" ] && [ ! -e "$target" ]; then
+                echo "::warning file=$f::Possibly broken relative link: $link"
+              fi
+            done
+          done < <(find . -name '*.md' -not -path './.git/*')
+
+          echo "Markdown check complete (warnings do not fail the build)."
+          exit $status

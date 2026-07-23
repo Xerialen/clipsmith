@@ -1,0 +1,10 @@
+[Unit]
+Description=clipsmith failure hook for %i — journald-visible alert (issue #21)
+# Full Discord failure alerts are issue #31; until then this guarantees every
+# failed clipsmith unit leaves an err-priority, greppable journal line:
+#   journalctl -t clipsmith-alert
+
+[Service]
+Type=oneshot
+User=@CLIPSMITH_USER@
+ExecStart=/bin/sh -c 'echo "CLIPSMITH FAILURE: unit %i failed on $(hostname) at $(date -Is). Inspect: journalctl -u %i -n 100" | systemd-cat -t clipsmith-alert -p err'

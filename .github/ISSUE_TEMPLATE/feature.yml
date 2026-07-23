@@ -1,0 +1,30 @@
+name: Feature
+description: A new capability or improvement
+title: "Feature: "
+labels: ["type:feature", "status:inbox"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What should be built?
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this matters
+      description: How does this connect to the north star?
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+  - type: textarea
+    id: docs
+    attributes:
+      label: Docs to update

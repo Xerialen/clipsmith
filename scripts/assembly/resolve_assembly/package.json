@@ -1,0 +1,9 @@
+{
+  "name": "clipsmith-resolve-assembly-helpers",
+  "private": true,
+  "type": "module",
+  "description": "Playwright render helper for the Demo Clip Focus frame overlay (issue #25)",
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

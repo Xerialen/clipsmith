@@ -1,0 +1,22 @@
+{
+  "_comment": [
+    "Pickup-sound config for the title cards (issue #23).",
+    "DROP-IN POINT for HITL #14 (real quad/pent pickup sounds from the game files):",
+    "replace 'path' with the real sound (relative to this dir, or absolute) and set",
+    "'transient_offset_s' to where the attack sits inside that file (seconds).",
+    "The pulse animation peak is aligned to sound_start + transient_offset_s;",
+    "no code change is needed. Current paths are synthesized PLACEHOLDER stand-ins",
+    "(regenerate with synth_sounds.py); their transient is at t=0.",
+    "Categories without an entry get a plain card with a silent audio stem."
+  ],
+  "sounds": {
+    "QUAD RUNNER": {
+      "path": "sounds/PLACEHOLDER_quad_pickup.wav",
+      "transient_offset_s": 0.0
+    },
+    "PENT RUNNER": {
+      "path": "sounds/PLACEHOLDER_pent_pickup.wav",
+      "transient_offset_s": 0.0
+    }
+  }
+}

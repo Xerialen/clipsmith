@@ -1,0 +1,19 @@
+[Unit]
+Description=clipsmith Monday digest post from the shipped digest JSON (issue #21)
+Documentation=file://@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/servexeri/README.md
+After=network-online.target
+Wants=network-online.target
+OnFailure=clipsmith-failure@%n.service
+
+[Service]
+Type=oneshot
+User=@CLIPSMITH_USER@
+EnvironmentFile=-@CLIPSMITH_HOME@/.config/clipsmith-deploy.env
+ExecStart=@CLIPSMITH_DEPLOY_DIR@/scripts/deploy/servexeri/bin/run-digest-post.sh
+TimeoutStartSec=30m
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clipsmith-digest-post
+
+[Install]
+WantedBy=multi-user.target

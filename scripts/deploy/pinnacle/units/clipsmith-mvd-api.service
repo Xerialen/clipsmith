@@ -1,0 +1,21 @@
+[Unit]
+Description=mvd-api analysis backend for clipsmith detection (on-demand, issue #21)
+# NOT enabled at boot on purpose: ~/mvd-mcp-bundle/run-mcp.sh (the MCP
+# launcher) may already have started an ad-hoc mvd-api on :8080. run-detect.sh
+# probes /healthz first and only starts this unit when nothing healthy is
+# listening, so the two starters never fight over the port.
+After=network-online.target
+
+[Service]
+Type=simple
+User=@CLIPSMITH_USER@
+Environment=MVDA_BSP_DIR=@CLIPSMITH_MVD_DIR@/bsps
+ExecStart=@CLIPSMITH_MVD_DIR@/mvd-api -addr :8080
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clipsmith-mvd-api
+
+[Install]
+WantedBy=multi-user.target
